@@ -1,0 +1,91 @@
+═══════════════════════════════════════════════════════════════
+   🌿 PlantCare - Quick Setup Instructions
+═══════════════════════════════════════════════════════════════
+
+📋 PREREQUISITES:
+─────────────────
+1. Node.js (v14 or higher)
+   Download from: https://nodejs.org/
+   Install it (includes npm automatically)
+
+2. A web browser (Chrome, Firefox, Edge, etc.)
+
+
+🚀 SETUP STEPS:
+───────────────
+
+STEP 1: Extract Files
+   • Extract the ZIP file to a folder
+   • Example: C:\Users\YourName\Desktop\PlantCare
+
+STEP 2: Install Dependencies
+   • Open Command Prompt or Terminal
+   • Navigate to the project folder:
+     cd "C:\Users\YourName\Desktop\PlantCare"
+   • Run: npm install
+   • Wait for installation to complete (1-3 minutes)
+
+STEP 3: Start the Server
+   • Keep the terminal open
+   • Run: npm start
+   • You should see: "✅ Server running on http://127.0.0.1:8000"
+   • Keep this terminal window open!
+
+STEP 4: Open the App
+   • Option A: Double-click index.html (may have issues)
+   • Option B: Use VS Code Live Server (recommended)
+     - Install VS Code
+     - Install "Live Server" extension
+     - Right-click index.html → "Open with Live Server"
+   • Option C: Use Python server
+     - Run: python -m http.server 8080
+     - Open: http://localhost:8080/index.html
+
+
+✅ TESTING:
+───────────
+1. You should see the login page
+2. Enter any email and password (min 4 characters)
+3. Click Login
+4. Select a language
+5. Select one or more crops
+6. You'll reach the home page
+7. Upload a plant image to test disease detection
+
+
+⚠️ TROUBLESHOOTING:
+───────────────────
+
+Problem: "npm install" fails
+Solution: 
+  • Make sure Node.js is installed (check: node --version)
+  • Check internet connection
+  • Try: npm cache clean --force
+
+Problem: "Port 8000 already in use"
+Solution:
+  • Close other applications
+  • Or change port in server.js
+
+Problem: "Cannot connect to server"
+Solution:
+  • Make sure server is running (npm start)
+  • Check terminal shows "Server running"
+  • Don't close the terminal window
+
+Problem: Page shows errors
+Solution:
+  • Use Live Server or Python server (not direct file open)
+  • Check browser console (F12) for errors
+
+
+📞 NEED HELP?
+─────────────
+Check README.md for detailed documentation
+Check SHARING_GUIDE.md for sharing instructions
+
+
+═══════════════════════════════════════════════════════════════
+   Made with 🌱 for farmers and gardeners worldwide
+═══════════════════════════════════════════════════════════════
+

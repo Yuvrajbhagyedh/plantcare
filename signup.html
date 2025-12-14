@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up | Plant Care</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <div class="card">
+    <h1 data-translate="signupTitle">Create Account</h1>
+    <p class="subtitle" data-translate="signupSubtitle">Join PlantCare to protect your crops</p>
+
+    <input type="text" id="email" data-translate="emailPlaceholder" placeholder="Email or Phone">
+    <input type="password" id="password" data-translate="passwordPlaceholder" placeholder="Password">
+    <input type="password" id="confirmPassword" data-translate="confirmPassword" placeholder="Confirm Password">
+
+    <button class="primary-btn" onclick="signup()" data-translate="signupButton">Sign Up</button>
+
+    <p class="small-text">
+      <span data-translate="alreadyHaveAccount">Already have an account?</span>
+      <a href="index.html" style="color: #2e7d32; text-decoration: none; font-weight: 600;" data-translate="loginLink">Login</a>
+    </p>
+  </div>
+</div>
+
+<script src="translations.js"></script>
+<script>
+  // Check if language is selected, if not redirect
+  if (!localStorage.getItem("selectedLanguage")) {
+    window.location.href = "language-select.html";
+  }
+  
+  // Check if crops are selected, if not redirect
+  const selectedCrops = JSON.parse(localStorage.getItem("selectedCrops") || "[]");
+  if (selectedCrops.length === 0) {
+    window.location.href = "plant-type-select.html";
+  }
+  
+  // Apply translations
+  applyTranslations();
+</script>
+<script src="auth.js"></script>
+<script>
+  function signup() {
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (!email || !password || !confirmPassword) {
+      showAlert("Please fill all fields", "error");
+      return;
+    }
+
+    // Basic email/phone validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+    
+    if (!emailRegex.test(email) && !phoneRegex.test(email.replace(/\s/g, ""))) {
+      showAlert("Please enter a valid email or phone number", "error");
+      return;
+    }
+
+    if (password.length < 4) {
+      showAlert("Password must be at least 4 characters", "error");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showAlert("Passwords do not match", "error");
+      return;
+    }
+
+    // Show loading state
+    const signupBtn = document.querySelector(".primary-btn");
+    const originalText = signupBtn.textContent;
+    signupBtn.disabled = true;
+    signupBtn.textContent = "Creating Account...";
+
+    // Simulate signup (in production, this would be an API call)
+    setTimeout(() => {
+      // Store user info
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userCrops", localStorage.getItem("selectedCrops"));
+
+      // Check if language and crops are selected
+      const hasLanguage = localStorage.getItem("selectedLanguage");
+      const selectedCrops = JSON.parse(localStorage.getItem("selectedCrops") || "[]");
+      
+      if (!hasLanguage) {
+        window.location.href = "language-select.html";
+      } else if (selectedCrops.length === 0) {
+        window.location.href = "plant-type-select.html";
+      } else {
+        window.location.href = "home.html";
+      }
+    }, 500);
+  }
+
+  function showAlert(message, type = "info") {
+    // Remove existing alerts
+    const existingAlert = document.querySelector(".alert");
+    if (existingAlert) {
+      existingAlert.remove();
+    }
+
+    // Create alert element
+    const alert = document.createElement("div");
+    alert.className = `alert alert-${type}`;
+    alert.textContent = message;
+    document.body.appendChild(alert);
+
+    // Show alert
+    setTimeout(() => alert.classList.add("show"), 10);
+
+    // Remove alert after 4 seconds
+    setTimeout(() => {
+      alert.classList.remove("show");
+      setTimeout(() => alert.remove(), 300);
+    }, 4000);
+  }
+
+  // Allow Enter key to submit
+  document.addEventListener("DOMContentLoaded", function() {
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    if (confirmPasswordInput) {
+      confirmPasswordInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+          signup();
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
+
