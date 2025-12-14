@@ -311,8 +311,8 @@
     // Make translations available globally
     window.translations = translations;
   </script>
-  <script src="auth.js"></script>
-  <script src="api.js"></script>
+  
+
   <script>
     // Check authentication
     if (!localStorage.getItem("loggedIn")) {
@@ -336,20 +336,18 @@
     window.addEventListener("DOMContentLoaded", function() {
       checkServerConnection();
     });
+function checkServerConnection() {
+ fetch("https://plantcare-2crhpwt0e-yuvrajbhagyedhs-projects.vercel.app/health")
 
-    function checkServerConnection() {
-      fetch("http://127.0.0.1:8000/health")
-        .then(res => res.json())
-        .then(data => {
-          console.log("✅ Server is running:", data.message);
-        })
-        .catch(err => {
-          console.warn("⚠️ Server not running. Please start the server:");
-          console.warn("1. Open terminal in this folder");
-          console.warn("2. Run: npm install");
-          console.warn("3. Run: npm start");
-        });
-    }
+    .then(res => res.json())
+    .then(data => {
+      console.log("✅ API running:", data.message);
+    })
+    .catch(() => {
+      console.warn("⚠️ Backend API unreachable");
+    });
+}
+
 
     // Mobile navigation toggle
     const navToggle = document.getElementById("navToggle");
