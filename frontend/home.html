@@ -7,545 +7,220 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:,">
 </head>
+
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <span class="brand-icon">🌿</span>
-        <span class="brand-text">PlantCare</span>
-      </div>
-      <ul class="nav-menu">
-        <li><a href="home.html" class="nav-link active" data-translate="home">Home</a></li>
-        <li><a href="#how-it-works" class="nav-link" data-translate="howItWorks">How It Works</a></li>
-        <li><a href="#diseases" class="nav-link" data-translate="diseases">Diseases</a></li>
-        <li><a href="#about" class="nav-link" data-translate="about">About</a></li>
-        <li><button class="nav-btn logout-btn-nav" onclick="logout()" data-translate="logout">Logout</button></li>
-      </ul>
-      <button class="nav-toggle" id="navToggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <span class="brand-icon">🌿</span>
+      <span class="brand-text">PlantCare</span>
     </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1 class="hero-title" data-translate="scanPlant">📸 Scan Your Plant</h1>
-      <p class="hero-subtitle" data-translate="scanSubtitle">Capture or upload a clear leaf image</p>
-      
-      <div class="upload-section">
-        <!-- Camera Preview (hidden by default) -->
-        <div id="cameraPreview" class="camera-preview" style="display: none;">
-          <video id="videoElement" autoplay playsinline></video>
-          <canvas id="canvasElement" style="display: none;"></canvas>
-          <div class="camera-controls">
-            <button class="camera-btn capture-btn" onclick="capturePhoto()">📸 Capture</button>
-            <button class="camera-btn cancel-btn" onclick="stopCamera()">✕ Cancel</button>
-          </div>
-        </div>
+    <ul class="nav-menu">
+      <li><a href="home.html" class="nav-link active">Home</a></li>
+      <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+      <li><a href="#diseases" class="nav-link">Diseases</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><button class="nav-btn logout-btn-nav" onclick="logout()">Logout</button></li>
+    </ul>
 
-        <div id="imagePreview" class="image-preview" style="display: none;">
-          <img id="previewImg" src="" alt="Preview">
-          <button class="remove-btn" onclick="removeImage()">✕</button>
-        </div>
+    <button class="nav-toggle" id="navToggle">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-        <div class="upload-options">
-          <button class="camera-option-btn" onclick="openCamera()" id="cameraBtn">
-            <span class="btn-icon">📷</span>
-            <span data-translate="openCamera">Open Camera</span>
-          </button>
-          <label class="upload-box" id="uploadLabel">
-            <input type="file" id="imageInput" accept="image/*" capture="environment">
-            <span class="upload-icon">📁</span>
-            <span id="uploadText" data-translate="selectGallery">Select from Gallery</span>
-            <span class="upload-hint">Supports JPG, PNG, GIF, WEBP (Max 10MB)</span>
-          </label>
-        </div>
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>📸 Scan Your Plant</h1>
+    <p>Capture or upload a clear leaf image</p>
 
-        <button class="primary-btn large-btn" id="predictBtn" onclick="predict()" disabled>
-          <span class="btn-icon">🔍</span>
-          <span data-translate="detectDisease">Detect Disease</span>
-        </button>
-        
-        <div id="loading" class="loading" style="display: none;">
-          <div class="spinner"></div>
-          <p data-translate="analyzing">Analyzing plant image... This may take a few seconds</p>
-        </div>
+    <!-- Camera Preview -->
+    <div id="cameraPreview" class="camera-preview" style="display:none">
+      <video id="videoElement" autoplay playsinline></video>
+      <canvas id="canvasElement" style="display:none"></canvas>
+      <div class="camera-controls">
+        <button onclick="capturePhoto()">📸 Capture</button>
+        <button onclick="stopCamera()">✕ Cancel</button>
       </div>
     </div>
-  </section>
 
-  <!-- How It Works Section -->
-  <section id="how-it-works" class="how-it-works-section">
-    <div class="container">
-      <h2 class="section-title" data-translate="howItWorksTitle">How It Works</h2>
-      <p class="section-subtitle" data-translate="howItWorksSubtitle">Simple steps to protect your plants</p>
-      
-      <div class="steps-container">
-        <div class="step-card">
-          <div class="step-number">1</div>
-          <div class="step-icon">📸</div>
-          <h3 data-translate="step1">Capture Image</h3>
-          <p data-translate="step1Desc">Take a clear photo of the affected plant leaves using your smartphone or camera. Ensure good lighting and focus.</p>
-        </div>
-        
-        <div class="step-arrow">→</div>
-        
-        <div class="step-card">
-          <div class="step-number">2</div>
-          <div class="step-icon">☁️</div>
-          <h3 data-translate="step2">Upload Photo</h3>
-          <p data-translate="step2Desc">Upload the image to our platform. Our system accepts JPG, PNG, GIF, and WEBP formats up to 10MB.</p>
-        </div>
-        
-        <div class="step-arrow">→</div>
-        
-        <div class="step-card">
-          <div class="step-number">3</div>
-          <div class="step-icon">🔍</div>
-          <h3 data-translate="step3">AI Analysis</h3>
-          <p data-translate="step3Desc">Our advanced AI model analyzes the image to detect diseases, pests, or health issues in your plants.</p>
-        </div>
-        
-        <div class="step-arrow">→</div>
-        
-        <div class="step-card">
-          <div class="step-number">4</div>
-          <div class="step-icon">📋</div>
-          <h3 data-translate="step4">Get Results</h3>
-          <p data-translate="step4Desc">Receive instant diagnosis with confidence scores and detailed treatment recommendations.</p>
-        </div>
-      </div>
+    <!-- Image Preview -->
+    <div id="imagePreview" class="image-preview" style="display:none">
+      <img id="previewImg">
+      <button class="remove-btn" onclick="removeImage()">✕</button>
     </div>
-  </section>
 
-  <!-- Common Diseases Section -->
-  <section id="diseases" class="diseases-section">
-    <div class="container">
-      <h2 class="section-title" data-translate="commonDiseases">Common Plant Diseases</h2>
-      <p class="section-subtitle" data-translate="learnAbout">Learn about diseases we can detect</p>
-      
-      <div class="diseases-grid">
-        <div class="disease-card">
-          <div class="disease-header">
-            <span class="disease-icon">🍃</span>
-            <h3 data-translate="earlyBlight">Early Blight</h3>
-          </div>
-          <p data-translate="earlyBlightDesc">Fungal disease causing dark spots on leaves, typically affecting tomatoes and potatoes.</p>
-          <div class="disease-tags">
-            <span class="tag" data-translate="fungal">Fungal</span>
-            <span class="tag" data-translate="common">Common</span>
-          </div>
-        </div>
-        
-        <div class="disease-card">
-          <div class="disease-header">
-            <span class="disease-icon">🍂</span>
-            <h3 data-translate="lateBlight">Late Blight</h3>
-          </div>
-          <p data-translate="lateBlightDesc">Destructive disease causing rapid plant death, especially in tomatoes and potatoes.</p>
-          <div class="disease-tags">
-            <span class="tag" data-translate="fungal">Fungal</span>
-            <span class="tag" data-translate="severe">Severe</span>
-          </div>
-        </div>
-        
-        <div class="disease-card">
-          <div class="disease-header">
-            <span class="disease-icon">🦠</span>
-            <h3 data-translate="bacterialSpot">Bacterial Spot</h3>
-          </div>
-          <p data-translate="bacterialSpotDesc">Bacterial infection causing small, water-soaked spots on leaves and fruits.</p>
-          <div class="disease-tags">
-            <span class="tag" data-translate="bacterial">Bacterial</span>
-            <span class="tag" data-translate="contagious">Contagious</span>
-          </div>
-        </div>
-        
-        <div class="disease-card">
-          <div class="disease-header">
-            <span class="disease-icon">🍄</span>
-            <h3 data-translate="leafMold">Leaf Mold</h3>
-          </div>
-          <p data-translate="leafMoldDesc">Fungal disease causing yellow patches and mold growth, common in humid conditions.</p>
-          <div class="disease-tags">
-            <span class="tag" data-translate="fungal">Fungal</span>
-            <span class="tag" data-translate="humidity">Humidity</span>
-          </div>
-        </div>
-        
-        <div class="disease-card">
-          <div class="disease-header">
-            <span class="disease-icon">🔴</span>
-            <h3 data-translate="leafSpot">Leaf Spot</h3>
-          </div>
-          <p data-translate="leafSpotDesc">Various fungal and bacterial diseases causing circular or irregular spots on leaves.</p>
-          <div class="disease-tags">
-            <span class="tag" data-translate="common">Common</span>
-            <span class="tag" data-translate="multiple">Multiple</span>
-          </div>
-        </div>
-        
-        <div class="disease-card">
-          <div class="disease-header">
-            <span class="disease-icon">🟡</span>
-            <h3 data-translate="yellowLeafCurl">Yellow Leaf Curl</h3>
-          </div>
-          <p data-translate="yellowLeafCurlDesc">Viral disease causing yellowing and curling of leaves, transmitted by whiteflies.</p>
-          <div class="disease-tags">
-            <span class="tag" data-translate="viral">Viral</span>
-            <span class="tag" data-translate="vector">Vector</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- Upload -->
+    <div class="upload-options">
+      <button onclick="openCamera()" id="cameraBtn">📷 Open Camera</button>
 
-  <!-- Tips Section -->
-  <section class="tips-section">
-    <div class="container">
-      <h2 class="section-title" data-translate="bestPractices">Best Practices for Plant Health</h2>
-      <div class="tips-grid">
-        <div class="tip-card">
-          <h4 data-translate="imageQuality">📷 Image Quality</h4>
-          <p data-translate="imageQualityDesc">Take clear, well-lit photos. Focus on the affected area and ensure the entire leaf is visible.</p>
-        </div>
-        <div class="tip-card">
-          <h4 data-translate="timing">🌅 Timing</h4>
-          <p data-translate="timingDesc">Capture images during daylight hours for better clarity and accurate diagnosis.</p>
-        </div>
-        <div class="tip-card">
-          <h4 data-translate="multipleAngles">🔍 Multiple Angles</h4>
-          <p data-translate="multipleAnglesDesc">If possible, take photos from different angles to help the AI better understand the issue.</p>
-        </div>
-        <div class="tip-card">
-          <h4 data-translate="earlyDetection">🌱 Early Detection</h4>
-          <p data-translate="earlyDetectionDesc">Regular monitoring and early detection can prevent disease spread and save your crops.</p>
-        </div>
-      </div>
+      <label class="upload-box" id="uploadLabel">
+        <input type="file" id="imageInput" accept="image/*">
+        <span id="uploadText">Select from Gallery</span>
+        <span class="upload-hint">Max 10MB</span>
+      </label>
     </div>
-  </section>
 
-  <!-- About Section -->
-  <section id="about" class="about-section">
-    <div class="container">
-      <h2 class="section-title" data-translate="aboutTitle">About PlantCare</h2>
-      <div class="about-content">
-        <div class="about-text">
-          <p data-translate="aboutDesc1">PlantCare is an innovative platform designed to help farmers and gardeners protect their crops through early disease detection. Our AI-powered system can identify various plant diseases, pests, and health issues from simple leaf images.</p>
-          <p data-translate="aboutDesc2">We understand the challenges faced by farmers worldwide - crop losses due to diseases can be devastating. That's why we've developed this accessible, easy-to-use tool that puts advanced plant pathology analysis in the palm of your hand.</p>
-          <p data-translate="aboutDesc3">Our mission is to make plant health monitoring accessible to everyone, from small-scale gardeners to large agricultural operations. By detecting diseases early, we help you take timely action and protect your valuable crops.</p>
-        </div>
-        <div class="about-stats">
-          <div class="stat-item">
-            <div class="stat-number">1000+</div>
-            <div class="stat-label" data-translate="plantsAnalyzed">Plants Analyzed</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">95%</div>
-            <div class="stat-label" data-translate="accuracyRate">Accuracy Rate</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">50+</div>
-            <div class="stat-label" data-translate="diseasesDetected">Diseases Detected</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <button id="predictBtn" onclick="predict()" disabled>
+      🔍 Detect Disease
+    </button>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3 class="footer-title">
-            <span class="brand-icon">🌿</span>
-            PlantCare
-          </h3>
-          <p data-translate="plantCareDesc">Smart plant disease detection for modern agriculture. Helping farmers grow better crops.</p>
-        </div>
-        
-        <div class="footer-section">
-          <h4 class="footer-heading" data-translate="quickLinks">Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="home.html" data-translate="home">Home</a></li>
-            <li><a href="#how-it-works" data-translate="howItWorks">How It Works</a></li>
-            <li><a href="#diseases" data-translate="diseases">Diseases</a></li>
-            <li><a href="#about" data-translate="about">About</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h4 class="footer-heading" data-translate="support">Support</h4>
-          <ul class="footer-links">
-            <li><a href="#about" data-translate="about">About Us</a></li>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h4 class="footer-heading" data-translate="connect">Connect</h4>
-          <p>Follow us for updates and farming tips</p>
-          <div class="social-links">
-            <a href="#" class="social-link">📘</a>
-            <a href="#" class="social-link">🐦</a>
-            <a href="#" class="social-link">📷</a>
-            <a href="#" class="social-link">💼</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p data-translate="copyright">&copy; 2024 PlantCare. All rights reserved. | Helping farmers grow better 🌾</p>
-      </div>
+    <div id="loading" style="display:none">
+      <p>Analyzing image…</p>
     </div>
-  </footer>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how-it-works">
+  <h2>How It Works</h2>
+  <p>Upload → Analyze → Get Results</p>
+</section>
+
+<!-- ================= DISEASES ================= -->
+<section id="diseases">
+  <h2>Common Plant Diseases</h2>
+  <p>Early Blight, Late Blight, Leaf Spot, Viral Infections</p>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <h2>About PlantCare</h2>
+  <p>
+    PlantCare helps farmers and gardeners detect plant diseases early using AI.
+  </p>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <p>&copy; 2024 PlantCare. All rights reserved.</p>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
 
 <script src="translations.js"></script>
 
 <script>
-  // Make translations available globally
-  window.translations = translations;
+/* ========== TRANSLATIONS & FLOW ========== */
+window.translations = typeof translations !== "undefined" ? translations : {};
+if (typeof applyTranslations === "function") applyTranslations();
 
-  const hasLanguage = localStorage.getItem("selectedLanguage");
-  const selectedCrops = JSON.parse(localStorage.getItem("selectedCrops") || "[]");
+const hasLanguage = localStorage.getItem("selectedLanguage");
+if (!hasLanguage) location.href = "language-select.html";
 
-  if (!hasLanguage) {
-    window.location.href = "language-select.html";
-  } else if (selectedCrops.length === 0) {
-    window.location.href = "plant-type-select.html";
+/* ========== ELEMENTS ========== */
+const imageInput = document.getElementById("imageInput");
+const predictBtn = document.getElementById("predictBtn");
+const uploadText = document.getElementById("uploadText");
+
+/* ========== FILE UPLOAD ========== */
+imageInput.addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById("previewImg").src = e.target.result;
+    document.getElementById("imagePreview").style.display = "block";
+    document.getElementById("uploadLabel").style.display = "none";
+    predictBtn.disabled = false;
+    uploadText.textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+});
+
+/* ========== CAMERA ========== */
+let stream = null;
+
+function openCamera() {
+  if (!navigator.mediaDevices) return alert("Camera not supported");
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(s => {
+      stream = s;
+      document.getElementById("videoElement").srcObject = s;
+      document.getElementById("cameraPreview").style.display = "block";
+      document.getElementById("uploadLabel").style.display = "none";
+      document.getElementById("cameraBtn").style.display = "none";
+    })
+    .catch(() => alert("Camera permission denied"));
+}
+
+function capturePhoto() {
+  const video = document.getElementById("videoElement");
+  const canvas = document.getElementById("canvasElement");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  canvas.getContext("2d").drawImage(video, 0, 0);
+  canvas.toBlob(blob => {
+    const file = new File([blob], "camera.jpg", { type: "image/jpeg" });
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    imageInput.files = dt.files;
+
+    document.getElementById("previewImg").src = canvas.toDataURL();
+    document.getElementById("imagePreview").style.display = "block";
+    predictBtn.disabled = false;
+    stopCamera();
+  });
+}
+
+function stopCamera() {
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  stream = null;
+  document.getElementById("cameraPreview").style.display = "none";
+  document.getElementById("cameraBtn").style.display = "block";
+}
+
+/* ========== REMOVE IMAGE ========== */
+function removeImage() {
+  imageInput.value = "";
+  document.getElementById("imagePreview").style.display = "none";
+  document.getElementById("uploadLabel").style.display = "block";
+  predictBtn.disabled = true;
+}
+
+/* ========== PREDICT ========== */
+async function predict() {
+  const file = imageInput.files[0];
+  if (!file) return alert("Select an image");
+
+  document.getElementById("loading").style.display = "block";
+  predictBtn.disabled = true;
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch(
+      "https://plantcare-2crhpwt0e-yuvrajbhagyedhs-projects.vercel.app/predict",
+      { method: "POST", body: formData }
+    );
+
+    if (!res.ok) throw new Error("Prediction failed");
+
+    const data = await res.json();
+    alert(`Disease: ${data.disease}\nConfidence: ${data.confidence}%`);
+  } catch (e) {
+    alert("Failed to analyze image");
+    console.error(e);
+  } finally {
+    document.getElementById("loading").style.display = "none";
+    predictBtn.disabled = false;
   }
+}
 
-  applyTranslations();
+/* ========== LOGOUT ========== */
+function logout() {
+  localStorage.clear();
+  location.href = "index.html";
+}
+</script>
 
-  // Optional manual check (NOT auto-run)
-
-
-
-     //Mobile navigation toggle
-    const navToggle = document.getElementById("navToggle");
-    const navMenu = document.querySelector(".nav-menu");
-    
-    if (navToggle) {
-      navToggle.addEventListener("click", () => {
-        navMenu.classList.toggle("active");
-        navToggle.classList.toggle("active");
-      });
-    }
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener("click", function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute("href"));
-        if (target) {
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-          // Close mobile menu if open
-          navMenu.classList.remove("active");
-          navToggle.classList.remove("active");
-        }
-      });
-    });
-
-    // Camera functionality
-    let stream = null;
-
-    function openCamera() {
-      // Check if getUserMedia is supported
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        showAlert("Camera not supported in this browser. Please use file upload.", "error");
-        return;
-      }
-
-      const cameraPreview = document.getElementById("cameraPreview");
-      const video = document.getElementById("videoElement");
-      const uploadLabel = document.getElementById("uploadLabel");
-      const cameraBtn = document.getElementById("cameraBtn");
-      
-      // Hide other elements
-      uploadLabel.style.display = "none";
-      cameraBtn.style.display = "none";
-      document.getElementById("imagePreview").style.display = "none";
-      
-      // Request camera access with better mobile support
-      const constraints = {
-        video: {
-          facingMode: { ideal: 'environment' }, // Prefer back camera on mobile
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
-      };
-      
-      navigator.mediaDevices.getUserMedia(constraints)
-      .then(function(mediaStream) {
-        stream = mediaStream;
-        video.srcObject = mediaStream;
-        cameraPreview.style.display = "block";
-        video.play().catch(err => {
-          console.error("Video play error:", err);
-        });
-      })
-      .catch(function(err) {
-        console.error("Camera error:", err);
-        let errorMsg = "Camera access denied. ";
-        if (err.name === 'NotAllowedError') {
-          errorMsg += "Please allow camera permissions in your browser settings.";
-        } else if (err.name === 'NotFoundError') {
-          errorMsg += "No camera found. Please use file upload.";
-        } else {
-          errorMsg += "Please use file upload instead.";
-        }
-        showAlert(errorMsg, "error");
-        // Show upload options again
-        uploadLabel.style.display = "block";
-        cameraBtn.style.display = "block";
-      });
-    }
-
-    function capturePhoto() {
-      const video = document.getElementById("videoElement");
-      const canvas = document.getElementById("canvasElement");
-      const previewImg = document.getElementById("previewImg");
-      const imagePreview = document.getElementById("imagePreview");
-      const cameraPreview = document.getElementById("cameraPreview");
-      const uploadLabel = document.getElementById("uploadLabel");
-      const cameraBtn = document.getElementById("cameraBtn");
-      
-      // Set canvas dimensions to match video
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      
-      // Draw video frame to canvas
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      // Convert canvas to blob and create file
-      canvas.toBlob(function(blob) {
-        // Create a File object from the blob
-        const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
-        
-        // Create a data URL for preview
-        const dataUrl = canvas.toDataURL('image/jpeg');
-        previewImg.src = dataUrl;
-        
-        // Store file in a way we can access it later
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(file);
-        document.getElementById("imageInput").files = dataTransfer.files;
-        
-        // Stop camera
-        stopCamera();
-        
-        // Show preview
-        imagePreview.style.display = "block";
-        document.getElementById("predictBtn").disabled = false;
-      }, 'image/jpeg', 0.9);
-    }
-
-    function stopCamera() {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-      }
-      const video = document.getElementById("videoElement");
-      video.srcObject = null;
-      document.getElementById("cameraPreview").style.display = "none";
-      
-      // Show upload options again
-      document.getElementById("uploadLabel").style.display = "block";
-      document.getElementById("cameraBtn").style.display = "block";
-    }
-
-    // Image preview functionality from file input
-    const imageInput = document.getElementById("imageInput");
-    if (imageInput) {
-      imageInput.addEventListener("change", function(e) {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            document.getElementById("previewImg").src = event.target.result;
-            document.getElementById("imagePreview").style.display = "block";
-            document.getElementById("uploadLabel").style.display = "none";
-            document.getElementById("cameraBtn").style.display = "none";
-            document.getElementById("predictBtn").disabled = false;
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-    }
-
-    function removeImage() {
-      document.getElementById("imageInput").value = "";
-      document.getElementById("imagePreview").style.display = "none";
-      document.getElementById("uploadLabel").style.display = "block";
-      document.getElementById("cameraBtn").style.display = "block";
-      document.getElementById("predictBtn").disabled = true;
-    }
-
-    // Stop camera when page is unloaded
-    window.addEventListener("beforeunload", function() {
-      stopCamera();
-    });
-
-    // Alert function (if not already defined)
-    function showAlert(message, type = "info") {
-      // Remove existing alerts
-      const existingAlert = document.querySelector(".alert");
-      if (existingAlert) {
-        existingAlert.remove();
-      }
-
-      // Create alert element
-      const alert = document.createElement("div");
-      alert.className = `alert alert-${type}`;
-      alert.textContent = message;
-      document.body.appendChild(alert);
-
-      // Show alert
-      setTimeout(() => alert.classList.add("show"), 10);
-
-      // Remove alert after 4 seconds
-      setTimeout(() => {
-        alert.classList.remove("show");
-        setTimeout(() => alert.remove(), 300);
-      }, 4000);
-    }
-
-    function logout() {
-      localStorage.removeItem("loggedIn");
-      localStorage.removeItem("result");
-      window.location.href = "index.html";
-    }
-
-    // Update active nav link on scroll
-    window.addEventListener("scroll", () => {
-      const sections = document.querySelectorAll("section[id]");
-      const scrollY = window.pageYOffset;
-
-      sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute("id");
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-          document.querySelectorAll(".nav-link").forEach(link => {
-            link.classList.remove("active");
-          });
-          if (navLink) navLink.classList.add("active");
-        }
-      });
-    });
-  </script>
 </body>
 </html>
