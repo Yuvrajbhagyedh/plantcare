@@ -1,7 +1,24 @@
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
+  })
+);
+
+// IMPORTANT for Vercel preflight
+app.options("*", cors());
+
+
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const cors = require("cors");
+app.use(cors({ origin: "*" }));
+
 
 app.use(cors());
 app.use(express.json());
