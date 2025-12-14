@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login | Plant Care</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <div class="card">
+    <h1 data-translate="loginTitle">🌿 PlantCare</h1>
+    <p class="subtitle" data-translate="loginSubtitle">Smart Plant Disease Detection</p>
+
+    <input type="text" id="email" data-translate="emailPlaceholder" placeholder="Email or Phone">
+    <input type="password" id="password" data-translate="passwordPlaceholder" placeholder="Password">
+
+    <button class="primary-btn" onclick="login()" data-translate="loginButton">Login</button>
+
+    <p class="small-text">
+      <span data-translate="alreadyHaveAccount">Already have an account?</span>
+      <a href="signup.html" style="color: #2e7d32; text-decoration: none; font-weight: 600; margin-left: 5px;" data-translate="signupButton">Sign Up</a>
+    </p>
+    <p class="small-text" data-translate="footerText">Helping farmers grow better 🌾</p>
+  </div>
+</div>
+
+<script src="translations.js"></script>
+<script src="auth.js"></script>
+<script>
+  // Redirect if already logged in - always go to language selection first
+  if (localStorage.getItem("loggedIn")) {
+    window.location.href = "language-select.html";
+  }
+  
+  // Apply translations (if language is already selected)
+  if (localStorage.getItem("selectedLanguage")) {
+    applyTranslations();
+  }
+</script>
+</body>
+</html>

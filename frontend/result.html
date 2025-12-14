@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Result | Plant Care</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <div class="card result-card">
+    <h2 data-translate="diagnosisResult">🌱 Diagnosis Result</h2>
+
+    <div id="output"></div>
+
+    <div class="button-group">
+      <button class="secondary-btn" onclick="goBack()" data-translate="scanAnother">Scan Another Plant</button>
+      <button class="logout-btn-text" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</div>
+
+<script src="translations.js"></script>
+<script src="auth.js"></script>
+<script>
+  // Check authentication
+  if (!localStorage.getItem("loggedIn")) {
+    window.location.href = "index.html";
+  }
+  
+  // Apply translations
+  applyTranslations();
+
+  // Load and display result
+  let resultData = localStorage.getItem("result");
+  
+  if (!resultData) {
+    document.getElementById("output").innerHTML = `
+      <div class="error-box">
+        <p>⚠️ No result found. Please scan a plant first.</p>
+      </div>
+    `;
+  } else {
+    try {
+      let data = JSON.parse(resultData);
+      
+      // Determine status color based on disease
+      const diseaseName = (data.disease || "").toLowerCase();
+      const isHealthy = diseaseName.includes("healthy");
+      const isNotPlant = diseaseName.includes("not a plant") || 
+                        diseaseName.includes("not plant") || 
+                        diseaseName.includes("image load error") ||
+                        (data.isPlant === false);
+      const statusClass = isNotPlant ? "status-error" : (isHealthy ? "status-healthy" : "status-disease");
+      
+      // Special handling for non-plant images
+      if (isNotPlant) {
+        document.getElementById("output").innerHTML = `
+          <div class="not-plant-box">
+            <div class="not-plant-icon">🌿❌</div>
+            <h3 class="${statusClass}">${data.disease || "Not a Plant Image"}</h3>
+            <p class="not-plant-message">
+              ${data.medicine || "Please upload a clear image of a plant leaf. The image should show plant leaves with visible details."}
+            </p>
+            <div class="not-plant-tips">
+              <h4>📸 Tips for better results:</h4>
+              <ul>
+                <li>Take a clear photo of plant leaves</li>
+                <li>Ensure good lighting</li>
+                <li>Focus on the affected area</li>
+                <li>Make sure the plant fills most of the image</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      } else {
+        // Normal plant disease result
+        let outputHTML = `
+          <div class="info">
+            <h3 class="${statusClass}">${data.disease || "Unknown Disease"}</h3>
+            <p class="confidence">Confidence: ${data.confidence || 0}%</p>
+        `;
+        
+        // Show analysis details if available
+        if (data.analysis && data.analysis.brownSpots !== undefined) {
+          outputHTML += `
+            <div class="analysis-box">
+              <h4>📊 Image Analysis</h4>
+              <div class="analysis-details">
+          `;
+          if (data.analysis.brownSpots !== undefined) {
+            outputHTML += `<p><span class="analysis-label">Brown Spots:</span> ${data.analysis.brownSpots}%</p>`;
+          }
+          if (data.analysis.yellowAreas !== undefined) {
+            outputHTML += `<p><span class="analysis-label">Yellow Areas:</span> ${data.analysis.yellowAreas}%</p>`;
+          }
+          if (data.analysis.healthyGreen !== undefined) {
+            outputHTML += `<p><span class="analysis-label">Healthy Green:</span> ${data.analysis.healthyGreen}%</p>`;
+          }
+          outputHTML += `
+              </div>
+            </div>
+          `;
+        }
+        
+        outputHTML += `
+          </div>
+
+          <div class="medicine-box">
+            <h4>💊 Recommended Treatment</h4>
+            <p>${data.medicine || "Please consult with an agricultural expert for treatment options."}</p>
+          </div>
+        `;
+        
+        document.getElementById("output").innerHTML = outputHTML;
+      }
+    } catch (error) {
+      document.getElementById("output").innerHTML = `
+        <div class="error-box">
+          <p>⚠️ Error loading result. Please try again.</p>
+        </div>
+      `;
+    }
+  }
+
+  function goBack() {
+    window.location.href = "home.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("result");
+    window.location.href = "index.html";
+  }
+</script>
+</body>
+</html>
