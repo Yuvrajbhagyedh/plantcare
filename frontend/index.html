@@ -19,24 +19,34 @@
 
     <p class="small-text">
       <span data-translate="alreadyHaveAccount">Already have an account?</span>
-      <a href="signup.html" style="color: #2e7d32; text-decoration: none; font-weight: 600; margin-left: 5px;" data-translate="signupButton">Sign Up</a>
+      <a href="signup.html" style="color:#2e7d32; text-decoration:none; font-weight:600; margin-left:5px;" data-translate="signupButton">
+        Sign Up
+      </a>
     </p>
+
     <p class="small-text" data-translate="footerText">Helping farmers grow better 🌾</p>
   </div>
 </div>
 
 <script src="translations.js"></script>
-<script src="auth.js"></script>
+
 <script>
-  // Redirect if already logged in - always go to language selection first
+  function login() {
+    // TEMP frontend-safe logic
+    localStorage.setItem("loggedIn", "true");
+    window.location.href = "language-select.html";
+  }
+
+  // Redirect if already logged in
   if (localStorage.getItem("loggedIn")) {
     window.location.href = "language-select.html";
   }
-  
-  // Apply translations (if language is already selected)
+
+  // Apply translations if language selected
   if (localStorage.getItem("selectedLanguage")) {
     applyTranslations();
   }
 </script>
+
 </body>
 </html>
