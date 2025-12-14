@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Plant Care - Smart Disease Detection</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -306,50 +307,28 @@
     </div>
   </footer>
 
-  <script src="translations.js"></script>
-  <script>
-    // Make translations available globally
-    window.translations = translations;
-  </script>
-  
+<script src="translations.js"></script>
 
-  <script>
-    // Check authentication
-    if (!localStorage.getItem("loggedIn")) {
-      window.location.href = "index.html";
-    }
-    
-    // Check if language and crops are selected, redirect if not
-    const hasLanguage = localStorage.getItem("selectedLanguage");
-    const selectedCrops = JSON.parse(localStorage.getItem("selectedCrops") || "[]");
-    
-    if (!hasLanguage) {
-      window.location.href = "language-select.html";
-    } else if (selectedCrops.length === 0) {
-      window.location.href = "plant-type-select.html";
-    }
-    
-    // Apply translations
-    applyTranslations();
+<script>
+  // Make translations available globally
+  window.translations = translations;
 
-    // Check server connection on page load
-    window.addEventListener("DOMContentLoaded", function() {
-      checkServerConnection();
-    });
-function checkServerConnection() {
- fetch("https://plantcare-2crhpwt0e-yuvrajbhagyedhs-projects.vercel.app/health")
+  const hasLanguage = localStorage.getItem("selectedLanguage");
+  const selectedCrops = JSON.parse(localStorage.getItem("selectedCrops") || "[]");
 
-    .then(res => res.json())
-    .then(data => {
-      console.log("✅ API running:", data.message);
-    })
-    .catch(() => {
-      console.warn("⚠️ Backend API unreachable");
-    });
-}
+  if (!hasLanguage) {
+    window.location.href = "language-select.html";
+  } else if (selectedCrops.length === 0) {
+    window.location.href = "plant-type-select.html";
+  }
+
+  applyTranslations();
+
+  // Optional manual check (NOT auto-run)
 
 
-    // Mobile navigation toggle
+
+     //Mobile navigation toggle
     const navToggle = document.getElementById("navToggle");
     const navMenu = document.querySelector(".nav-menu");
     
